@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@import url('fonts.googleapis.com');
+@theme{
+    --color-body:#0c1222;
+    --color-umber:#352315;
+}
+@layer components {
+ .social-media{
+    @apply bg-yellow-500 flex justify-center items-center p-2 rounded-full
+ }
+}
