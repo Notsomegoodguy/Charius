@@ -1,309 +1,639 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link href="./style.css" rel="stylesheet">
-  <title>Wild Life</title>
-  <style>
-    html{
-      scroll-behavior: smooth;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Charius</title>
+    <style>
+        html{
+            scroll-behavior: smooth;
+        }
+
+        .scroll-section {
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            will-change: opacity, transform;
+            min-height: 50vh;
+            
+        }
+
+        .scroll-section.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        #talkbubble {
+            width: 300px;
+            background: white;
+            position: relative;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+        #talkbubble:before {
+            content: "";
+            position: absolute;
+            right: 100%;
+            top: 26px;
+            width: 0;
+            height: 0;
+            border-top: 13px solid transparent;
+            border-right: 26px solid white;
+            border-bottom: 13px solid transparent;
     }
+    .logo-anim {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        animation: infiniteScaleLogo 4s ease-in-out infinite;
+        animation-delay: var(--delay);
+    }
+     @keyframes infiniteScaleLogo {
+        0% {
+            transform: scale(1);
+        }
+        12.5% {
+            transform: scale(1.4);
+        }
+        25% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .grid-item {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        animation: infiniteScale 4s ease-in-out infinite;
+        animation-delay: var(--delay); 
+    }
+
+    @keyframes infiniteScale {
+        0% {
+            transform: scale(1);
+        }
+        12.5% {
+            transform: scale(1.1); 
+        }
+        25% {
+            transform: scale(1); 
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
     .toggle{
-      background-color:mediumseagreen;
-      color: white;
-      padding: 5px 6px;
-      border-radius: 2px;
-      transition: all .3s linear;
+        color: #ff7300;
+        transition: all 0.3s ease-in-out;
     }
 
-    .load-tunisia {
-      transition: all 1s ease-in-out;
-      animation: animtun 10s ease-in-out;
-    }
-
-    @keyframes animtun {
-      0% {
-        width: 0;
-      }
-      
-      100% {
-        width: 60%;
-      }
-    }
-
-    .load-zebra-fund{
-      transition: all .8s ease-in-out;
-      animation: animzeb 5s ease-in-out;
-    }
-
-    @keyframes animzeb {
-      0% {
-        width: 0;
-      }
-      
-      100% {
-        width: 35%;
-      }
-    }
-
-    .load-traff{
-      transition: all .5s ease-in-out;
-      animation: animtraff 7s ease-in-out;
-    }
-
-    @keyframes animtraff {
-      0% {
-        width: 0;
-      }
-      100% {
-        width: 70%;
-      }
-    }
-
-  .cormorant-garamond-font {
-    font-family: "Cormorant Garamond", serif;
-    font-style: normal;
-  }
-
-  </style>
-</head>
-<body class="p-0 m-0 cormorant-garamond-font hidden lg:block">
-
-  <div class="animate-bounce duration-75 ease-in-out transition-all lg:hidden block text-9xl text-center text-sky-400">This Website is only optimized for desktop viewing.</div>
-  <header class="fixed top-10 left-30 right-30 flex justify-between items-center bg-white ring-1 ring-gray-400 rounded-2xl p-3 z-50">
-    <div class="flex space-x-3.5 items-center">
-      <ion-icon class="font-bold text-2xl" name="home-outline"></ion-icon>
-      <p class="font-bold">WILD ANIMALS</p>
-    </div>
-
-    <nav class="flex justify-between items-center space-x-10 text-[.8em]">
-      <div class="js-home-btn js-home"><a href="#home">Home</a></div>
-      <div class="js-work-btn js-work"><a href="#ourWork">Our Work</a></div>
-      <div class="js-about-btn js-about"><a href="#aboutUs">About Us </a></div>
-      <div class="js-news-btn js-news"><a href="#news">News</a></div>
-      <div class="js-contact-btn js-contact"><a href="#contact">Contact</a></div>
-    </nav>
-
-    <div class="flex space-x-6 items-center">
-      <ion-icon class="text-xl font-bold" name="search-outline"></ion-icon>
-      <button class="p-2 bg-yellow-500 rounded-xl text-[.7em]">Donate</button>
-    </div>
-  </header>
-  
-  <main class="pt-3 p-20 bg-umber/90">
-    <section id="home" class="scroll-section">
-      <div class="bg-[url('./img/create_an_image_202604171411(1).png')] bg-cover bg-center bg-no-repeat rounded-2xl w-full h-dvh">
-        <div class="w-full h-full inset-0 bg-black/10 pl-20 pt-50 space-y-7 rounded-2xl">
-          <div class="text-7xl text-white font-medium">Africa's Voice<br>for Wildlife</div>
-          <p class="text-white">We're working to ensure and wild lands<br>thrive in modern Africa.</p>
-          <button class="p-2 bg-yellow-500 rounded-xl">Donate</button> 
-        </div>
-      </div>
-    </section>
     
-    <section id="ourWork" class="pt-10 space-y-10 scroll-section">
-      <div class="flex flex-col items-center">
-        <p  class="text-3xl text-white font-medium mb-4">Our Latest Projects</p>
-        <p class="text-yellow-400">Our multi-faceted approach ensures conservation strategies</p>
-        <span class="text-yellow-400">work for wildlife and people</span>
-      </div>
-      
-      <div class="grid grid-cols-3 gap-x-10">
-        <div class="w-full bg-yellow-600 p-5 rounded-2xl space-y-10">
-          <div class="bg-[url('./img/create_an_image_202604171409.png')] bg-cover bg-center bg-no-repeat rounded-2xl w-full h-45">
-            <div class="w-full h-full inset-0 bg-black/10 rounded-2xl"></div>
-          </div>
-
-          <div class="flex flex-col justify-center items-center space-y-5">
-            <p class="text-2xl font-medium">Wild Welfare Tunisia</p>
-            <p class="wrap-normal">The lack of government regulation, experience and skills has resulted in some poorly managed facilities across the country</p>
-            <p class="font-medium text-xl">$99,999 raised</p>
-            <div class="w-full h-3 bg-white rounded-3xl">
-              <div class="load-tunisia w-50 h-full bg-black rounded-3xl"></div>
+    </style>
+</head>
+<body class="p-0 m-0 bg-white">
+    <header id="main-header" class="fixed left-0 right-0 z-50 bg-white border-b-1 border-b-gray-200 transition-transform duration-300 ease-in-out">
+       <div class="flex justify-between pl-1 pr-1 lg:pl-10 lg:pr-10 bg-green-900 text-white text-sm pt-2 pb-2">
+            <div class="flex gap-3.5 text-[13px] lg:text-lg">
+                <p>(+234) 7051840049</p>
+                <p>&copy;Peter Henry </p>
             </div>
-            <button class="p-2 bg-yellow-500 rounded-xl text-[1em]">Learn More</button>
-          </div>
+            <div class="flex justify-between gap-3.5 text-[13px] lg:text-lg">
+                <button class="logo-anim" style="--delay: 0.5s"><ion-icon name="logo-facebook"></ion-icon></button>
+                <button class="logo-anim" style="--delay: 1s"><ion-icon name="logo-instagram"></ion-icon></button>
+                <button class="logo-anim" style="--delay: 1.5s"><ion-icon name="logo-youtube"></ion-icon></button>
+                <button class="logo-anim" style="--delay: 2s"><ion-icon name="logo-twitter"></ion-icon></button>
+            </div>
+       </div>
+       <div for="menu-toggle" class="flex justify-between items-center p-1 pl-1 pr-1 md:p-2 md:pl-15 md:pr-15">
+            <input type="checkbox" id="menu-toggle" class="hidden peer" aria-controls="mobile-menu" aria-expanded="false">
+            <p class="text-2xl font-bold peer-checked:hidden">Charius</p>
+            <label for="menu-toggle" class="relative select-none md:hidden">
+                <p class="font-medium">MENU</p>
+            </label>
+            
+            <nav id="mobile-menu" class="hidden peer-checked:flex justify-between ml-5 md:ml-o md:flex md:justify-between items-center gap-7 md:gap-5 text-[13px]">
+                <p class="js-home-btn toggleOnOffhome"><a href="#home">HOME</a></p>
+                <p class="js-about-btn toggleOnOffabout"><a href="#about">ABOUT</a></p>
+                <p class="js-donating-btn toggleOnOffdonating"><a href="#donating">DONATING</a></p>
+                <p class="js-event-btn toggleOnOffevent"><a href="#event">EVENT</a></p>
+                <p class="js-blog-btn toggleOnOffblog"><a href="#blog">BLOG</a></p>
+                <p class="js-contact-btn toggleOnOffcontact hidden md:block"><a href="#contact">CONTACT</a></p>
+            </nav>    
+            
+
+            <div class="flex justify-between items-center peer-checked:opacity-0">
+                <ion-icon class="text-xl font-bold" name="search-outline"></ion-icon>
+
+                <ion-icon class="text-xl font-bold" name="profile-outline"></ion-icon>
+
+                <button class=" p-2 pl-3 pr-3 text-white rounded-xl cursor-pointer shadow-lg shadow-gray-900 bg-amber-600 hover:shadow-none hover:shadow-gray-0 transition-all duration-500 ease-in-out">Donate Now</button>
+            </div>  
+       </div>
+    </header>
+    <main class="overflow-hidden">
+        <div id="home" class="bg-[url('./img/create_a_sharp_202604171350.png')] bg-cover bg-center bg-no-repeat w-full h-dvh lg:h-140 mt-22">
+            <div class="inset-0 bg-black/50 w-full h-full">
+                <div class="pt-60 md:pt-25 pl-2 pb-5 lg:pl-10 lg:pb-10">
+                    <div class="space-y-5 mb-10 lg:mb-20">
+                        <p class="text-white text-lg lg:text-sm">Give them a chance.</p>
+                        <p class="text-white text-5xl lg:text-7xl font-bold md:w-200">Give The Child The Gift Of Education.</p>
+                        <p class="text-white text-lg lg:text-sm">Lorem ipsum dolor sit amet, consectetur</p>
+                    </div>
+                    <div class="flex items-center gap-3.5">
+                        <button class=" p-2 pl-3 pr-3 text-white rounded-xl cursor-pointer bg-amber-600 hover:shadow-none hover:shadow-gray-0 transition-all duration-500 ease-in-out">Donate Now</button>
+                        <div class="flex">
+                            <img class="ring-1 ring-white w-9 h-9 object-center object-cover rounded-full" src="./img/create_a_sharp_202604171351.png" alt="">
+
+                            <img class="ring-1 ring-white w-9 h-9 object-center object-cover rounded-full" src="./img/create_an_image_202604171345 (1).png" alt="">
+
+                            <img class="ring-1 ring-white w-9 h-9 object-center object-cover rounded-full" src="./img/create_an_image_202604171345.png" alt="">
+                        </div>  
+                    </div>
+                </div>
+            </div> 
         </div>
 
-        <div class="w-full bg-white p-5 rounded-2xl space-y-10">
-          <div class="bg-[url('./img/create_an_image_202604171401.png')] bg-cover bg-center bg-no-repeat rounded-2xl w-full h-45">
-            <div class="w-full h-full inset-0 bg-black/10 rounded-2xl"></div>
-          </div>
+        <section id="about" class="flex flex-col items-center pl-1 pr-1 md:pl-5 md:pr-5 md:grid md:grid-cols-2 pt-30 scroll-section">
+            <div class="bg-[url('./img/Untitled-2.png')] bg-contain bg-center bg-no-repeat w-70 h-50 md:w-full md:h-full mb-5 lg:mb-0"></div>
+            
+            <div class="space-y-5 lg:pr-20">
+                <div>
+                    <p class="flex justify-center lg:block text-xl lg:text-lg text-yellow-400">Welcome To Charius</p>
+                </div>
+                
+                <div>
+                    <p class="flex justify-center lg:block lg:w-100 font-bold text-2xl lg:text-4xl">You're the Hope of Others.</p>
+                </div>
+                
+                <div class="flex justify-center lg:block lg:pr-10 text-sm">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit.Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit</p>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <button class=" p-2 pl-3 pr-3 text-white rounded-xl cursor-pointer bg-amber-600 transition-all duration-500 ease-in-out">Donate Now</button>
+                    
+                    <ion-icon class="text-xl" name="call-outline"></ion-icon>
 
-          <div class="flex flex-col justify-center items-center space-y-5">
-            <p class="text-2xl font-medium">Zebra Fund</p>
-            <p class="wrap-normal">The lack of government regulation, experience and skills has resulted in some poorly managed facilities across the country</p>
-            <p class="font-medium text-xl">$99,999 raised</p>
-            <div class="w-full h-3 bg-white rounded-3xl">
-              <div class="load-zebra-fund w-30 h-full bg-black rounded-3xl"></div>
+                    <div class="text-[13px]">
+                        <p>call Us</p>
+                        <p>(+234) 7051840049</p>
+                    </div>
+                </div>
             </div>
-            <button class="p-2 bg-yellow-500 rounded-xl text-[1em]">Learn More</button>
-          </div>
+        </section>
+
+        <section class="flex justify-between items-center pt-5 lg:pt-30 md:pl-20 md:pr-20 scroll-section">
+            <div class="flex gap-0.5 items-center">
+                <p class="font-bold text-4xl">22</p>
+                <p class="text-[10px]">Lorem <br> ipsum</p>
+            </div>
+
+            <div class="flex gap-0.5 items-center">
+                <p class="font-bold text-4xl">3M</p>
+                <p class="text-[10px]">Lorem <br> ipsum</p>
+            </div>
+
+            <div class="flex gap-0.5 items-center">
+                <p class="font-bold text-4xl">54</p>
+                <p class="text-[10px]">Lorem <br> ipsum</p>
+            </div>
+
+            <div class="flex gap-0.5 items-center">
+                <p class="font-bold text-4xl">10</p>
+                <p class="text-[10px]">Lorem ipsum<br> ipsum</p>
+            </div>
+        </section>
+
+        <section id="donating" class="pt-10 lg:pt-30 space-y-10 pl-1 pr-1 lg:pl-20 lg:pr-20 scroll-section">
+            <div class="flex flex-col justify-center items-center">
+                <p class="text-yellow-400 text-sm">Lorem Ipsom</p>
+                <p class="text-4xl font-bold">Find the popular cause</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5">
+                <div class="w-full pb-5 border-1 border-gray-300 rounded-2xl md:hover:shadow-lg md:hover:shadow-gray-500 transition-all duration-500 ease-in-out">
+                    <img class="w-full object-center object-contain rounded-t-2xl" src="./img/create_a_portrait_image_of_202605050429 (1).jpeg" alt="">
+
+                    <div class="pl-2 pr-2 md:pl-5 md:pr-5 space-y-3 mt-5">
+                        <p class="text-sm font-bold">Thirsty are Waiting For Your Help.</p>
+
+                        <div class="p-2 md:p-5 bg-gray-200 rounded-xl">
+                            <p class="text-sm md:text-[10px] text-right text-yellow-400">62/100</p>
+                            <div class="bg-white h-2 w-full rounded-2xl mb-2">
+                                <div class="h-full w-[70%] bg-red-600 rounded-2xl"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-[12px] lg:text-sm">
+                                <p>Lorem ipsom</p>
+                                <p>Lorem ips</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full pb-5 border-1 border-gray-300 rounded-2xl md:hover:shadow-lg md:hover:shadow-gray-500 transition-all duration-500 ease-in-out">
+                    <img class="w-full object-center object-contain rounded-t-2xl" src="./img/create_a_portrait_image_of_202605050436.jpeg" alt="">
+
+                    <div class="pl-2 pr-2 md:pl-5 md:pr-5 space-y-3 mt-5">
+                        <p class="text-sm font-bold">Thirsty are Waiting For Your Help.</p>
+
+                        <div class="p-2 md:p-5 bg-gray-200 rounded-xl">
+                            <p class="text-sm md:text-[10px] text-right text-yellow-400">62/100</p>
+                            <div class="bg-white h-2 w-full rounded-2xl mb-2">
+                                <div class="h-full w-[70%] bg-green-600 rounded-2xl"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-[12px] lg:text-sm">
+                                <p>Lorem ipsom</p>
+                                <p>Lorem ips</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full pb-5 border-1 border-gray-300 rounded-2xl md:hover:shadow-lg md:hover:shadow-gray-500 transition-all duration-500 ease-in-out">
+                    <img class="w-full object-center object-contain rounded-t-2xl" src="./img/create_a_sharp_202604171351.png" alt="">
+
+                    <div class="pl-2 pr-2 md:pl-5 md:pr-5 space-y-3 mt-5">
+                        <p class="text-sm font-bold">Thirsty are Waiting For Your Help.</p>
+
+                        <div class="p-2 md:p-5 bg-gray-200 rounded-xl">
+                            <p class="text-sm md:text-[10px] text-right text-yellow-400">62/100</p>
+                            <div class="bg-white h-2 w-full rounded-2xl mb-2">
+                                <div class="h-full w-[70%] bg-yellow-400 rounded-2xl"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-[12px] lg:text-sm">
+                                <p>Lorem ipsom</p>
+                                <p>Lorem ips</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full pb-5 border-1 border-gray-300 rounded-2xl md:hidden">
+                    <img class="w-full object-center object-contain rounded-t-2xl" src="./img/create_a_portrait_middle_eastern_202605050413.jpeg" alt="">
+
+                    <div class="pl-2 pr-2 md:pl-5 md:pr-5 space-y-3 mt-5">
+                        <p class="text-sm font-bold">Thirsty are Waiting For Your Help.</p>
+
+                        <div class="p-2 md:p-5 bg-gray-200 rounded-xl">
+                            <p class="text-sm md:text-[10px] text-right text-yellow-400">62/100</p>
+                            <div class="bg-white h-2 w-full rounded-2xl mb-2">
+                                <div class="h-full w-[70%] bg-sky-400 rounded-2xl"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-[12px] lg:text-sm">
+                                <p>Lorem ipsom</p>
+                                <p>Lorem ips</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pt-30 pl-5 pr-5 scroll-section">
+            <div class="grid grid-cols-3 lg:grid-cols-5 gap-3.5">
+                <div class="grid-item bg-cover bg-center h-60 rounded-xl shadow-lg" 
+                style="background-image: url('./img/create_an_image_of_multiple_202605050417.jpeg'); --delay: 0.5s"></div>
+
+                <div class="grid-item bg-cover bg-center h-60 rounded-xl shadow-lg" 
+                style="background-image: url('./img/create_an_image_of_orphan_202605050421.jpeg'); --delay: 1s"></div>
+
+                <div class="grid-item bg-cover bg-center h-60 rounded-xl shadow-lg" 
+                style="background-image: url('./img/create_an_image_202604171348.png'); --delay: 1.5s"></div>
+
+                <div class="grid-item lg:block hidden bg-cover bg-center h-60 rounded-xl shadow-lg" 
+                style="background-image: url('./img/create_an_image_of_children_202605050423.jpeg'); --delay: 2s"></div>
+
+                <div class="grid-item lg:block hidden bg-cover bg-center h-60 rounded-xl shadow-lg" 
+                style="background-image: url('./img/create_an_image_of_an_202605050502.jpeg'); --delay: 2.5s"></div>
+            </div>
+        </section>
+        <section class="mt-30 pt-10 pb-10 md:pl-2 md:pr-2 lg:pl-10 lg:pr-10 bg-amber-50 scroll-section">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                <div class="flex gap-9">
+                    <img class="ring-1 ring-white w-15 h-15 object-center object-cover rounded-full" src="./img/create_a_portrait_headshot_image_202605050442 (1).jpeg" alt="">
+                    <div id="talkbubble" class="p-5 pb-5 shadow-2xl shadow-gray-700">
+                        <p class="font-bold text-sm">John Doe</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-quote" viewBox="0 0 16 16">
+                        <path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388q0-.527.062-1.054.093-.558.31-.992t.559-.683q.34-.279.868-.279V3q-.868 0-1.52.372a3.3 3.3 0 0 0-1.085.992 4.9 4.9 0 0 0-.62 1.458A7.7 7.7 0 0 0 9 7.558V11a1 1 0 0 0 1 1zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612q0-.527.062-1.054.094-.558.31-.992.217-.434.559-.683.34-.279.868-.279V3q-.868 0-1.52.372a3.3 3.3 0 0 0-1.085.992 4.9 4.9 0 0 0-.62 1.458A7.7 7.7 0 0 0 3 7.558V11a1 1 0 0 0 1 1z"/>
+                        </svg>
+
+                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-9">
+                    <img class="ring-1 ring-white w-15 h-15 object-center object-cover rounded-full" src="./img/create_a_portrait_headshot_image_202605050442 (2).jpeg" alt="">
+                    <div id="talkbubble" class="p-5 pb-5 shadow-2xl shadow-gray-700">
+                        <p class="font-bold text-sm">John Doe</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-quote" viewBox="0 0 16 16">
+                        <path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388q0-.527.062-1.054.093-.558.31-.992t.559-.683q.34-.279.868-.279V3q-.868 0-1.52.372a3.3 3.3 0 0 0-1.085.992 4.9 4.9 0 0 0-.62 1.458A7.7 7.7 0 0 0 9 7.558V11a1 1 0 0 0 1 1zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612q0-.527.062-1.054.094-.558.31-.992.217-.434.559-.683.34-.279.868-.279V3q-.868 0-1.52.372a3.3 3.3 0 0 0-1.085.992 4.9 4.9 0 0 0-.62 1.458A7.7 7.7 0 0 0 3 7.558V11a1 1 0 0 0 1 1z"/>
+                        </svg>
+
+                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-9">
+                    <img class="ring-1 ring-white w-15 h-15 object-center object-cover rounded-full" src="./img/create_a_portrait_headshot_image_202605050455.jpeg" alt="">
+                    <div id="talkbubble" class="p-5 pb-5 shadow-2xl shadow-gray-700">
+                        <p class="font-bold text-sm">John Doe</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-quote" viewBox="0 0 16 16">
+                        <path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388q0-.527.062-1.054.093-.558.31-.992t.559-.683q.34-.279.868-.279V3q-.868 0-1.52.372a3.3 3.3 0 0 0-1.085.992 4.9 4.9 0 0 0-.62 1.458A7.7 7.7 0 0 0 9 7.558V11a1 1 0 0 0 1 1zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612q0-.527.062-1.054.094-.558.31-.992.217-.434.559-.683.34-.279.868-.279V3q-.868 0-1.52.372a3.3 3.3 0 0 0-1.085.992 4.9 4.9 0 0 0-.62 1.458A7.7 7.7 0 0 0 3 7.558V11a1 1 0 0 0 1 1z"/>
+                        </svg>
+
+                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section  id="event" class="pt-20 pl-1 pr-1 md:pl-10 md:pr-10 lg:pl-20 lg:pr-20 scroll-section">
+            <div class="flex flex-col items-center justify-center">
+                <p class="text-yellow-400 text-sm">Lorem Ipsom</p>
+                <p class="text-4xl font-bold">Join Our Upcoming</p>
+                <p class="text-4xl font-bold">Events</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-3.5 pt-10">
+                <div class="relative rounded-2xl hover:shadow-lg hover:shadow-gray-500 transition-all duration-500 ease-in-out">
+                    <div 
+                        class="relative w-full h-80 bg-cover bg-center rounded-2xl shadow-lg z-10"
+                        style="background-image: url('./img/sisters.jpeg');">
+                        <div class="inset-0 w-full h-full bg-black/30 rounded-2xl pl-5 pr-5 pt-60">
+                            <div class="flex flex-col justify-center space-y-3">
+                                <p class="text-sm text-white font-medium">Lorem ipsum dolor sit amet, consectetur adipisci</p>
+                                <div class="flex justify-between">
+                                    <p class="text-[10px] text-white font-medium">Lorem ipsum</p>
+                                    <p class="text-[10px] text-white font-medium">dolor sit amet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute -top-3 right-8 w-16 h-20 bg-gradient-to-b from-yellow-400 to-orange-500 rounded-b-full flex flex-col items-center justify-center text-white font-bold shadow-md z-30">
+                        
+                        <span class="text-lg leading-none">12</span>
+                        <span class="text-[12px] uppercase tracking-wider">Sept</span>
+                        
+                        <div class="absolute top-0 -left-[12px] w-0 h-0 border-b-[12px] border-b-orange-900 border-l-[12px] border-l-transparent z-0">
+                        </div>
+                    </div>
+                </div>
+                <div class="relative rounded-2xl hover:shadow-lg hover:shadow-gray-500 transition-all duration-500 ease-in-out">
+                    <div 
+                        class="relative w-full h-80 bg-cover bg-center rounded-2xl shadow-lg z-10"
+                        style="background-image: url('./img/create_a_portrait_image_of_202605050440.jpeg');">
+                        <div class="inset-0 w-full h-full bg-black/30 rounded-2xl pl-5 pr-5 pt-60">
+                            <div class="flex flex-col justify-center space-y-3">
+                                <p class="text-sm text-white font-medium">Lorem ipsum dolor sit amet, consectetur adipisci</p>
+                                <div class="flex justify-between">
+                                    <p class="text-[10px] text-white font-medium">Lorem ipsum</p>
+                                    <p class="text-[10px] text-white font-medium">dolor sit amet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute -top-3 right-8 w-16 h-20 bg-gradient-to-b from-green-400 to-green-500 rounded-b-full flex flex-col items-center justify-center text-white font-bold shadow-md z-30">
+                        
+                        <span class="text-lg leading-none">12</span>
+                        <span class="text-[12px] uppercase tracking-wider">Sept</span>
+                        
+                        <div class="absolute top-0 -left-[12px] w-0 h-0 border-b-[12px] border-b-green-900 border-l-[12px] border-l-transparent z-0">
+                        </div>
+                    </div>
+                </div>
+                <div class="relative rounded-2xl hover:shadow-lg hover:shadow-gray-500 transition-all duration-500 ease-in-out">
+                    <div 
+                        class="relative w-full h-80 bg-cover bg-center rounded-2xl shadow-lg z-10"
+                        style="background-image: url('./img/create_an_image_of_an_202605050459 (1).jpeg');">
+                        <div class="inset-0 w-full h-full bg-black/30 rounded-2xl pl-5 pr-5 pt-60">
+                            <div class="flex flex-col justify-center space-y-3">
+                                <p class="text-sm text-white font-medium">Lorem ipsum dolor sit amet, consectetur adipisci</p>
+                                <div class="flex justify-between">
+                                    <p class="text-[10px] text-white font-medium">Lorem ipsum</p>
+                                    <p class="text-[10px] text-white font-medium">dolor sit amet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute -top-3 right-8 w-16 h-20 bg-gradient-to-b from-red-400 to-red-500 rounded-b-full flex flex-col items-center justify-center text-white font-bold shadow-md z-30">
+                        
+                        <span class="text-lg leading-none">12</span>
+                        <span class="text-[12px] uppercase tracking-wider">Sept</span>
+                        
+                        <div class="absolute top-0 -left-[12px] w-0 h-0 border-b-[12px] border-b-red-900 border-l-[12px] border-l-transparent z-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pt-30 md:pl-20 md:pr-20 lg:pl-10 lg:pr-10 scroll-section">
+            <div class="flex flex-col items-center justify-center">
+                <p class="text-yellow-400 text-sm">Lorem Ipsom</p>
+                <p class="text-4xl font-bold text-center">Meet Our Volunteer behind<span class="lg:hidden md:hidden"> the Success Story</span></p>
+                <p class="text-4xl font-bold md:block lg:block hidden">the Success Story</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-15 gap-4">
+                <div class="flex flex-col justify-center items-center space-y-4">
+                    <img class="ring-1 ring-white w-40 h-40 object-center object-cover rounded-full" src="./img/create_a_portrait_headshot_image_202605050442 (1).jpeg" alt="">
+                    <div class="flex flex-col justify-center items-center">
+                        <p class="font-medium">Lorem Ipsom</p>
+                        <p class="text-gray-600">the Success Story</p>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center items-center space-y-3">
+                    <img class="ring-1 ring-white w-40 h-40 object-center object-cover rounded-full" src="./img/create_a_portrait_headshot_image_202605050455 (1).jpeg" alt="">
+                    <div class="flex flex-col justify-center items-center">
+                        <p class="font-medium">Lorem Ipsom</p>
+                        <p class="text-gray-600">the Success Story</p>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center items-center space-y-3">
+                    <img class="ring-1 ring-white w-40 h-40 object-center object-cover rounded-full" src="./img/create_a_portrait_headshot_image_202605050442 (2).jpeg" alt="">
+                    <div class="flex flex-col justify-center items-center">
+                        <p class="font-medium">Lorem Ipsom</p>
+                        <p class="text-gray-600">the Success Story</p>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center items-center space-y-3">
+                    <div class="w-40 h-40 bg-[url('./img/create_a_portrait_headshot_image_202605050455.jpeg')] bg-cover bg-center bg-no-repeat rounded-full"></div>
+                    <div class="flex flex-col justify-center items-center">
+                        <p class="font-medium">Lorem Ipsom</p>
+                        <p class="text-gray-600">the Success Story</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pt-30 scroll-section">
+            <div class="w-full h-60 bg-[url('./img/create_a_sharp_202604171350.png')] bg-cover bg-center bg-no-repeat p-3">
+               <div class="inset-0 bg-green-600/60 w-full h-full pt-5 md:pt-15 lg:pt-15">
+                    <div class="flex flex-col justify-center items-center">
+                        <p class="text-md text-white">Lorem ipsum dolor sit amet,</p>
+                        <p class="text-2xl text-white font-medium text-center">Your Donation Means A Lot To Them</p>
+                        <p class="text-2xl text-white font-medium">Donate What You Can</p>
+                        <button class="bg-yellow-500 p-2 pl-3 pr-3 text-white rounded-xl cursor-pointer hover:bg-yellow-600 transition-all duration-500 ease-in-out mt-3">Donate Now</button>
+                    </div>
+               </div> 
+            </div>
+        </section>
+
+        <section id="blog" class="pt-30 pl-5 pr-5 lg:pl-10 lg:pr-10 scroll-section">
+            <div class="flex flex-col items-center justify-center">
+                <p class="text-yellow-400 text-sm">Lorem Ipsom</p>
+                <p class="text-4xl font-bold text-center">Our Latest News And <span class="md:hidden lg:hidden">Articles</span></p>
+                <p class="text-4xl font-bold hidden md:block lg:block">Articles</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 lg:grid-cols-3 gap-3.5 pt-20">
+                <div class="w-full pb-5 border-1 border-gray-300 rounded-2xl">
+                    <img class="w-full object-center object-contain rounded-t-2xl" src="./img/create_an_image_of_an_202605050456.jpeg" alt="">
+
+                    <div class="pl-2 pr-2 space-y-3 mt-5">
+                        <div class="pl-2 pr-2 md:pl-0 md:pr-0 flex justify-between items-center">
+                            <div class="flex space-x-1.5 items-center">
+                                <img class="w-10 h-10 rounded-full object-center object-cover" src="./img/create_a_portrait_headshot_image_202605050442 (2).jpeg" alt="">
+
+                                <p class="text-sm text-gray-600">Lorem Ipsom</p>
+                            </div>
+
+                            <p class="text-sm text-gray-600">Lorem Ipsom</p>
+                        </div>
+
+                        <p class="text-md font-bold">Thirsty are Waiting For Your Help. Lorem ipsum dolor sit</p>
+                        
+                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt</p>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <p class="text-yellow-300">Lorem ipsum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full pb-5 border-1 border-gray-300 rounded-2xl">
+                    <img class="w-full object-center object-contain rounded-t-2xl" src="./img/middle_eastern_orphan_child_2K_202605050409.jpeg" alt="">
+
+                    <div class="pl-2 pr-2 space-y-3 mt-5">
+                        <div class="pl-2 pr-2 md:pl-0 md:pr-0 flex justify-between items-center">
+                            <div class="flex space-x-1.5 items-center">
+                                <img class="w-10 h-10 rounded-full object-center object-cover" src="./img/create_a_portrait_headshot_image_202605050455.jpeg" alt="">
+
+                                <p class="text-sm text-gray-600">Lorem Ipsom</p>
+                            </div>
+
+                        <p class="text-sm text-gray-600">Lorem Ipsom</p>
+                        </div>
+
+                        <p class="text-md font-bold">Thirsty are Waiting For Your Help.Lorem ipsum dolor sit</p>
+                        
+                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt  </p>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <p class="text-green-500">Lorem ipsum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full pb-5 border-1 border-gray-300 rounded-2xl">
+                    <img class="w-full object-center object-contain rounded-t-2xl" src="./img/create_an_image_of_orphan_202605050422.jpeg" alt="">
+
+                    <div class="pl-2 pr-2 space-y-3 mt-5">
+                        <div class="pl-2 pr-2 md:pl-0 md:pr-0 flex justify-between items-center">
+                            <div class="flex space-x-1.5 items-center">
+                                <img class="w-10 h-10 rounded-full object-center object-cover" src="./img/create_a_portrait_headshot_image_202605050442.jpeg" alt="">
+
+                                <p class="text-sm text-gray-600">Lorem Ipsom</p>
+                            </div>
+
+                        <p class="text-sm text-gray-600">Lorem Ipsom</p>
+                        </div>
+
+                        <p class="text-md font-bold">Thirsty are Waiting For Your Help.Lorem ipsum dolor sit</p>
+                        
+                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt  </p>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <p class="text-red-500">Lorem ipsum</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer id="contact" class="pt-30">
+        <div class="w-full h-full bg-[url('./img/create_an_image_of_multiple_202605050418.jpeg')] bg-cover bg-center bg-no-repeat">
+            <div class="inset-0 bg-black/90 w-full h-full pl-1 pr-1 md:pl-5 md:pr-5 lg:pl-5 lg:pr-5">
+                <div class="pt-5 pb-5 space-y-15">
+                    <div class="flex justify-between items-center">
+                        <p class="text-2xl text-white font-bold">Charius</p>
+                        <div class="flex justify-between gap-2 text-lg text-white items-center">
+                            <button class=""><ion-icon name="logo-facebook"></ion-icon></button>
+                            <button class=""><ion-icon name="logo-instagram"></ion-icon></button>
+                            <button class=""><ion-icon name="logo-youtube"></ion-icon></button>
+                            <button class=""><ion-icon name="logo-twitter"></ion-icon></button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <div class="grid grid-cols-2 gap-5">
+                            <div class="space-y-3">
+                                <p class="font-bold text-white text-sm md:text-lg lg:text-lg">Lorem ipsum dolor</p>
+                                <p class="text-sm text-gray-300 "> sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit</p>
+                            </div>
+
+                            <div class="space-y-3">
+                                <p class="font-bold text-white text-sm md:text-lg lg:text-lg">Lorem ipsum dolor</p>
+                                <p class="text-sm text-gray-300 "> sit amet</p>
+                                <p class="text-sm text-gray-300 "> sit amet</p>
+                                <p class="text-sm text-gray-300 ">minim ven</p>
+                                <p class="text-sm text-gray-300 ">sit amet</p>
+                                <p class="text-sm text-gray-300 ">sit amet</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="space-y-3">
+                                <p class="font-bold text-white text-sm md:text-lg lg:text-lg">Lorem ipsum dolor</p>
+                                <p class="text-sm text-gray-300 "> sit amet</p>
+                                <p class="text-sm text-gray-300 "> sit amet</p>
+                                <p class="text-sm text-gray-300 ">minim ven</p>
+                                <p class="text-sm text-gray-300 ">sit amet</p>
+                                <p class="text-sm text-gray-300 ">sit amet</p>
+                            </div>
+
+                            <div class="space-y-3">
+                                <p class="font-bold text-white text-sm md:text-lg lg:text-lg">Lorem ipsum dolor</p>
+                                <p class="text-sm text-gray-300 "> sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm text-gray-300">exercitationem</p>
+
+                        <div class="flex justify-between gap-3 items-center">
+                            <p class="text-sm text-gray-300 ">ullam</p>
+                            <p class="text-sm text-gray-300 ">sed</p>
+                            <p class="text-sm text-gray-300 ">sed</p>
+                            <p class="text-sm text-gray-300 ">Ut</p>
+                            <p class="text-sm text-gray-300 ">amet</p>
+                        </div>  
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="w-full bg-white p-5 rounded-2xl space-y-10">
-          <div class="bg-[url('./img/an_image_of_202604171401.png')] bg-cover bg-center bg-no-repeat rounded-2xl w-full h-45">
-            <div class="w-full h-full inset-0 bg-black/10 rounded-2xl"></div>
-          </div>
-
-          <div class="flex flex-col justify-center items-center space-y-5">
-            <p class="text-2xl font-medium">Stop the trafficking</p>
-            <p class="wrap-normal">The lack of government regulation, experience and skills has resulted in some poorly managed facilities across the country</p>
-            <p class="font-medium text-xl">$99,999 raised</p>
-            <div class="w-full h-3 bg-white rounded-3xl">
-              <div class="load-traff w-60 h-full bg-black rounded-3xl"></div>
-            </div>
-            <button class="p-2 bg-yellow-500 rounded-xl text-[1em]">Learn More</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="aboutUs" class="pt-30 scroll-section">
-      <div class="w-full h-80 bg-emerald-800/40 rounded-2xl relative">
-        <div class="bg-[url('./img/an_image_of_202604171403.png')] bg-cover bg-center bg-no-repeat h-full w-140 rounded-l-2xl space-y-4">
-          <div class="absolute top-15 left-120 space-y-5">
-            <p class="text-3xl font-medium text-white">
-            We are a voice for all <br>animals that share our world.
-            </p>
-            <p class="text-sm text-white">We recieve no government grants and rely on the generosity <br>of our supporters to continue our vital work for animals.</p>
-            <button class="p-2 bg-yellow-500 rounded-xl text-sm">More About Us</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="news" class="pt-30 scroll-section">
-      <section class="bg-white p-10 rounded-t-2xl">
-        <p class="text-2xl mb-4">Latest News</p>
-        <div class="w-full h-0.5 bg-gray-500"></div>
-        <div class="mt-10 grid grid-cols-2 gap-10 h-70">
-          <div class="flex gap-10 items-center">
-            <div class="bg-[url('./img/create_an_image_202604171411.png')] bg-cover bg-center bg-no-repeat h-full w-50"></div>
-            <div class="space-y-3">
-              <div class="flex gap-3 items-center">
-                <div class="p-1 pl-3 pr-3 bg-amber-500 rounded-lg text-[.6em]">Projects</div>
-                <p class="text-[.8em] text-gray-800">November 22,2025</p>
-              </div>
-              <p class="font-medium">Joining Up For The Benefit Of the Elephants</p>
-            </div>
-          </div>
-
-          <div class="flex gap-10 items-center">
-            <div class="bg-[url('./img/create_an_image_202604171413(1).png')] bg-cover bg-center bg-no-repeat h-full w-50"></div>
-            <div class="space-y-3">
-              <div class="flex gap-3 items-center">
-                <div class="p-1 pl-3 pr-3 bg-black rounded-lg text-[.6em] text-white">News</div>
-                <p class="text-[.8em] text-gray-800">November 22,2025</p>
-              </div>
-              <p class="font-medium">We're Hiring - Communications Manager</p>
-            </div>
-          </div>
-
-          <div class="flex gap-10 items-center">
-            <div class="bg-[url('./img/create_an_image_202604171411(2).png')] bg-cover bg-center bg-no-repeat h-full w-65"></div>
-            <div class="space-y-3">
-              <div class="flex gap-3 items-center">
-                <div class="p-1 pl-3 pr-3 text-white bg-black rounded-lg text-[.6em]">ARTICLES</div>
-                <p class="text-[.8em] text-gray-800">November 22,2025</p>
-              </div>
-              <p class="font-medium">Successful Strategies For Animal Welfare Improvements</p>
-            </div>
-          </div>
-
-          <div class="flex gap-10 items-center">
-            <div class="bg-[url('./img/an_image_of_202604171408.png')] bg-cover bg-center bg-no-repeat h-full w-60"></div>
-            <div class="space-y-3">
-              <div class="flex gap-3 items-center">
-                <div class="p-1 pl-3 pr-3 text-white bg-black rounded-lg text-[.6em]">ARTICLES</div>
-                <p class="text-[.8em] text-gray-800">November 22,2025</p>
-              </div>
-              <p class="font-medium">Camel Care and Welfare - What's it all about?</p>
-            </div>
-          </div>   
-        </div>
-      </section>
-      <section class="bg-yellow-500 p-10 rounded-b-2xl">
-        <div>
-          <p class="text-2xl mb-4">Protecting an astounding <br> diversity of species.</p>
-          <p class="text-[.8em] mb-4">Our multi-faceted approach ensures conservation strategies work for wildlife and people</p>
-          <div class="w-full h-0.5 bg-gray-500"></div>
-        </div>
-        <div class="mt-10 grid grid-cols-4 gap-5 h-50">
-          <div class="bg-[url('./img/create_an_image_202604171413(2).png')] bg-cover bg-center bg-no-repeat h-full rounded-2xl relative">
-            <div class="w-full h-full inset-0 bg-black/30 rounded-2xl">
-              <div class="flex justify-center font-medium text-white">
-                <p class="absolute bottom-2.5">Wildlife</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-[url('./img/create_an_image_202604171358.png')] bg-cover bg-center bg-no-repeat h-full rounded-2xl relative">
-            <div class="w-full h-full inset-0 bg-black/30 rounded-2xl">
-              <div class="flex justify-center font-medium text-white">
-                <p class="absolute bottom-2.5">Land</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-[url('./img/create_a_community_202604171416.png')] bg-cover bg-center bg-no-repeat h-full rounded-2xl relative">
-            <div class="w-full h-full inset-0 bg-black/30 rounded-2xl">
-              <div class="flex justify-center font-medium text-white">
-                <p class="absolute bottom-2.5">Community</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-[url('./img/create_a_black_202604171419.png')] bg-cover bg-center bg-no-repeat h-full rounded-2xl relative">
-            <div class="w-full h-full inset-0 bg-black/30 rounded-2xl">
-              <div class="flex justify-center font-medium text-white">
-                <p class="absolute bottom-2.5">Leadership</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <section id="contact" class="pt-30 grid grid-cols-2 gap-100 items-center scroll-section">
-      <div class="space-y-5">
-        <p class="text-2xl text-white">Stay in Touch</p>
-        <input class="p-1.5 pl-3 text-[.7em] bg-white rounded-lg outline-0 shadow-white w-50" type="text" placeholder="Enter your email">
-        <button class="p-1.5 pl-3 pr-3 bg-yellow-500 rounded-lg text-[.7em]">Subscribe</button> <br>
-        <div class="space-x-2 flex">
-          <button class="social-media"><ion-icon name="logo-facebook"></ion-icon></button>
-          <button class="social-media"><ion-icon name="logo-instagram"></ion-icon></button>
-          <button class="social-media"><ion-icon name="logo-youtube"></ion-icon></button>
-          <button class="social-media"><ion-icon name="logo-twitter"></ion-icon></button>
-        </div> 
-      </div>
-
-      <div class="space-y-4 text-white/80 text-right">
-        <div class="text-[.8em] ">
-          <p>Wild Animals c/o RPD,</p>
-          <p>Ground Floor 1-7 Station Road,</p>
-          <p>Oakley</p>
-          <p>East Sussex, DH10 6KT</p>
-        </div>
-        
-        <nav class="flex items-center justify-between font-bold text-white text-[.8em]">
-          <div>Home</div>
-          <div>Our Work</div>
-          <div>About Us</div>
-          <div>News</div>
-          <div>Contacts</div>
-        </nav>
-
-        <p class="text-[.8em]">This is a sample website - cmsmasters ©️ 2022 / All Rights Reserved</p>
-      </div>
-    </section>
-  </main>
-  <script type="module" src="scripts/index.js"></script>
+    </footer>
+    <script type="module" src="script/index.js"></script>
 </body>
 </html>

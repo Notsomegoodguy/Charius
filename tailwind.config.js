@@ -7,10 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // THIS is where we will add the custom clip-path next
-      fontFamily: {
-        sans:['"Poppins"', 'Sans-serif'],
-      }
+      keyframes: {
+        'infinite-scale': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.1)' },
+        },
+      },
+      animation: {
+        'infinite-scale': 'infinite-scale 3s ease-in-out infinite',
+      },
     },
   },
  plugins: [
